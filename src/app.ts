@@ -10,7 +10,7 @@ import helmet from "helmet";
 
 import { EnvConfig } from "./config";
 
-import user from "./apis/user/routes";
+import userRoutes from "./apis/user/routes";
 
 
 export class App {
@@ -40,7 +40,7 @@ export class App {
 
         this.add(errorHandler());
 
-        this.add(user, '/user')
+        this.add(userRoutes.router, userRoutes.basePath)
 
         return this
     }
