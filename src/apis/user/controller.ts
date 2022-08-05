@@ -16,26 +16,27 @@ export class UserController {
     /**
      * Create a new account.
      */
-    public async signup(body: any) {
+    async signup(body: any) {
         return await userCRUD.signup(body)
     };
 
     /**
      * Login to account.
      */
-    public signin(creds: any) {
+    async signin(creds: any) {
+        return await userCRUD.signin(creds)
     };
 
     /**
      * Login Required middleware.
      */
-    public isAuthenticated(req: Request, res: Response, next: NextFunction) {
+    async isAuthenticated(req: Request, res: Response, next: NextFunction) {
     };
 
     /**
      * Authorization Required middleware.
      */
-    public isAuthorized(req: Request, res: Response, next: NextFunction) {
+    async isAuthorized(req: Request, res: Response, next: NextFunction) {
     };
 }
 

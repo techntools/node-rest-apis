@@ -1,4 +1,5 @@
 import { EnvConfig } from "../../config";
+import { SuccessResponse, FailureResponse } from "../../utils/server-response";
 
 
 export class UserCRUD {
@@ -9,7 +10,17 @@ export class UserCRUD {
     }
 
     async signup(newUser: any) {
-        return { message: 'User signed up' }
+        return new SuccessResponse(
+            'Sign up successfull'
+        )
+    }
+
+    async signin(creds: any) {
+        return new FailureResponse(
+            'Sign in failed',
+            {},
+            400
+        )
     }
 }
 
