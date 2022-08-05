@@ -1,16 +1,16 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
 import compression from "compression";
 import bodyParser from "body-parser";
 import logger from "morgan";
-import errorHandler from "errorhandler";
 import helmet from "helmet";
+import * as OpenApiValidator from 'express-openapi-validator';
 
 import { EnvConfig } from "./config";
-
 import userRoutes from "./apis/user/routes";
+import { ReqHandler, RequestError } from "./typedefs/request";
 
 
 export class App {
@@ -38,9 +38,21 @@ export class App {
 
         this.add(helmet());
 
-        this.add(errorHandler());
+        this.add(
+            OpenApiValidator.middleware({
+                apiSpec: './src/apis.yaml',
+            }),
+        );
 
         this.add(userRoutes.router, userRoutes.basePath)
+
+        this.add((err: RequestError, req: Request, res: Response, next: NextFunction) => {
+            res.status(err.status || 500).json({
+                success: false,
+                message: err.message,
+                errors: err.errors,
+            });
+        });
 
         return this
     }
@@ -63,7 +75,7 @@ export class App {
         });
     }
 
-    public addRequestResponseHandler(func: (request: express.Request, response: express.Response, next: () => any) => any) {
+    public addRequestResponseHandler(func: ReqHandler) {
         this.app.use(func);
     }
 

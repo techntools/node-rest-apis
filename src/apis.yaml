@@ -1,0 +1,89 @@
+openapi: 3.0.3
+
+info:
+  title: Node REST APIs
+  description: Node REST APIs
+  version: 0.1.9
+
+servers:
+  - url: /
+    description: Test Server
+
+tags:
+    - name: User
+
+components:
+  responses:
+    BadRequest:
+      description: A bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      properties:
+        error:
+          properties:
+            message:
+              type: string
+          required:
+            - message
+
+paths:
+  /user/signup:
+    post:
+      tags:
+        - User
+      requestBody:
+        description: Register an user
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+
+              required:
+                - username
+                - email
+                - password
+
+      responses:
+        '201':
+          description: Author is registered successfully
+
+        '400':
+            $ref: '#/components/responses/BadRequest'
+
+  /user/signin:
+    post:
+      tags:
+        - User
+
+      requestBody:
+        description: User signin
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+
+      responses:
+        '200':
+          description: User signs in
+
+        '400':
+            $ref: '#/components/responses/BadRequest'
