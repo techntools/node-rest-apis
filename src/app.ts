@@ -6,7 +6,7 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import logger from "morgan";
 import errorHandler from "errorhandler";
-import lusca from "lusca";
+import helmet from "helmet";
 
 import { EnvConfig } from "./config";
 
@@ -36,8 +36,7 @@ export class App {
             })
         }));
 
-        this.add(lusca.xframe("SAMEORIGIN"));
-        this.add(lusca.xssProtection(true));
+        this.add(helmet());
 
         this.add(errorHandler());
 
