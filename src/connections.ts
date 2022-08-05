@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+
 export class Connector {
     private databaseURI: string
 
@@ -18,5 +19,6 @@ export class Connector {
         await mongoose.connection.close()
     }
 }
+
 
 export default new Connector
