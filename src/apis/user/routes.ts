@@ -13,12 +13,12 @@ class UserRoutes {
 
         this.router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
             const ret = await userController.signup(req.body)
-            res.status(ret.status).json(ret)
+            res.sendJSON(ret, ret.status)
         })
 
         this.router.post('/signin', async (req: Request, res: Response, next: NextFunction) => {
             const ret = await userController.signin(req.body)
-            res.status(ret.status).json(ret)
+            res.sendJSON(ret, ret.status)
         })
     }
 }

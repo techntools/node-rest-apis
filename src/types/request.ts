@@ -1,7 +1,7 @@
-import express from "express";
+import express from "express"
 
 
-interface ReqHandler {
+interface RequestHandler {
     (request: express.Request, response: express.Response, next: express.NextFunction): void
 }
 
@@ -11,4 +11,4 @@ interface RequestError extends Error {
 }
 
 
-export { ReqHandler, RequestError }
+export { RequestHandler, RequestError, }

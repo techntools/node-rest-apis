@@ -10,7 +10,7 @@ import * as OpenApiValidator from 'express-openapi-validator';
 
 import { EnvConfig } from "./config";
 import userRoutes from "./apis/user/routes";
-import { ReqHandler, RequestError } from "./typedefs/request";
+import { RequestHandler, RequestError } from "./types/request";
 
 
 export class App {
@@ -44,6 +44,8 @@ export class App {
             }),
         );
 
+        this.add(this.sendJSON)
+
         this.add(userRoutes.router, userRoutes.basePath)
 
         this.add((err: RequestError, req: Request, res: Response, next: NextFunction) => {
@@ -75,7 +77,7 @@ export class App {
         });
     }
 
-    public addRequestResponseHandler(func: ReqHandler) {
+    public addRequestResponseHandler(func: RequestHandler) {
         this.app.use(func);
     }
 
@@ -87,6 +89,14 @@ export class App {
 
     public listen(func: () => void) {
         this.app.listen(this.app.get("port"), func);
+    }
+
+    public sendJSON(req: Request, res: Res, next: NextFunction) {
+        res.sendJSON = function(body, status) {
+            res.status(status).json(body)
+        }
+
+        next()
     }
 }
 
