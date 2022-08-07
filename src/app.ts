@@ -91,7 +91,7 @@ export class App {
         this.app.listen(this.app.get("port"), func);
     }
 
-    public sendJSON(req: Request, res: Res, next: NextFunction) {
+    public sendJSON(req: Request, res: Response, next: NextFunction) {
         res.sendJSON = function(body, status) {
             res.status(status).json(body)
         }
